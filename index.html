@@ -94,7 +94,44 @@
 ‎        }
 ‎    </style>
 ‎</head>
-‎
+‎<script>
+async function loadResults() {
+
+    const response = await fetch("results.json");
+    const data = await response.json();
+
+    document.getElementById("result-date").textContent = data.date;
+
+    const resultsDiv = document.getElementById("results");
+
+    resultsDiv.innerHTML = "";
+
+    data.results.forEach(lottery => {
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>🎟️ ${lottery.name}</h3>
+
+            <p>Draw No. ${lottery.draw}</p>
+
+            <div class="numbers">
+                <div class="number">${lottery.letter}</div>
+
+                ${lottery.numbers.map(number =>
+                    `<div class="number">${number}</div>`
+                ).join("")}
+
+            </div>
+        `;
+
+        resultsDiv.appendChild(card);
+    });
+}
+
+loadResults();
+</script>
 ‎<body>
 ‎
 ‎<header>
